@@ -78,7 +78,7 @@ internal actual fun ScreenConfiguration.getMaxHeight(): Dp {
 
 @Composable
 internal actual fun ScreenConfiguration.getPadding(maxWidth: Dp): Dp {
-    val isDialogFullWidth = screenWidthDp.toInt() == maxWidth.value.toInt()
+    val isDialogFullWidth = screenWidthDp == maxWidth.value.toInt()
     return if (isDialogFullWidth) 16.dp else 0.dp
 }
 
