@@ -14,7 +14,7 @@ object Dependencies {
     }
 
     object Accompanist {
-        private const val version = "0.24.4"
+        private const val version = "0.25.1"
         const val pager = "ca.gosyer:accompanist-pager:$version"
     }
 
