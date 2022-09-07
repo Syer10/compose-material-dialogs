@@ -27,7 +27,7 @@ internal actual fun Month.getFullLocalName(locale: Locale) =
 internal actual fun DayOfWeek.getShortLocalName(locale: Locale) =
     this.getDisplayName(TextStyle.SHORT, locale.toPlatform())
 
-internal actual fun Month.testLength(isLeapYear: Boolean): Int = this.length(isLeapYear)
+internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int = this.length(isLeapYear)
 
 internal actual operator fun DayOfWeek.plus(days: Long): DayOfWeek =
     plus(days)

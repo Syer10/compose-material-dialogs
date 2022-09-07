@@ -32,7 +32,7 @@ internal expect fun Month.getFullLocalName(locale: Locale): String
 
 internal expect fun DayOfWeek.getShortLocalName(locale: Locale): String
 
-internal expect fun Month.testLength(isLeapYear: Boolean): Int
+internal expect fun Month.testLength(year: Int, isLeapYear: Boolean): Int
 
 internal fun LocalTime.toAM(): LocalTime = if (this.isAM) this else this.minusHours(12)
 internal fun LocalTime.toPM(): LocalTime = if (!this.isAM) this else this.plusHours(12)

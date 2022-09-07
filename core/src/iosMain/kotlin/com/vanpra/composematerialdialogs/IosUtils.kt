@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.InternalComposeApi
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,6 +19,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Application
 import kotlinx.atomicfu.atomic
 import kotlin.math.min
+
+@RequiresOptIn(
+    level = RequiresOptIn.Level.ERROR,
+    message = "This is internal API for Compose Material Dialogs that shouldn't be used"
+)
+@Target(
+    AnnotationTarget.CLASS,
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY
+)
+annotation class InternalComposeMaterialDialogsApi
 
 actual class AtomicInt actual constructor(initialValue: Int): Number() {
     private val value = atomic(initialValue)
@@ -63,6 +75,12 @@ internal actual fun isLargeDevice(): Boolean {
 @Composable
 internal actual fun rememberScreenConfiguration(): ScreenConfiguration {
     return LocalScreenConfiguration.current
+}
+
+@InternalComposeMaterialDialogsApi
+@Composable
+fun getDialogScreenWidthDp(): Int {
+    return LocalScreenConfiguration.current.screenWidthDp
 }
 
 internal val LocalScreenConfiguration = compositionLocalOf<ScreenConfiguration>{ throw IllegalStateException("Unused") }
