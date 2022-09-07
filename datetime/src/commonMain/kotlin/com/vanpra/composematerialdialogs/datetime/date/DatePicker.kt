@@ -457,7 +457,7 @@ private fun CalendarHeader(title: String, state: DatePickerState, locale: Locale
 }
 
 private fun getDates(date: LocalDate, locale: Locale): Pair<Int, Int> {
-    val numDays = date.month.testLength(date.isLeapYear)
+    val numDays = date.month.testLength(date.year, date.isLeapYear)
 
     val firstDayOfWeek = WeekFields.of(locale).firstDayOfWeek.isoDayNumber
     val firstDay = date.withDayOfMonth(1).dayOfWeek.isoDayNumber - firstDayOfWeek % 7
