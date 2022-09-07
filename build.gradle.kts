@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.compose") version "1.2.0-alpha01-dev753" apply false
+    id("org.jetbrains.compose") version "1.2.0-alpha01-dev774" apply false
     id("com.diffplug.spotless") version "6.0.4"
-    id("org.jetbrains.dokka") version "1.7.0"
+    id("org.jetbrains.dokka") version "1.7.10"
 }
 
 buildscript {
