@@ -26,7 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(kotlin("stdlib-common"))
-                api(project(":core"))
+                api(projects.core)
                 api(compose.ui)
                 api(compose.foundation)
                 api(compose.material)

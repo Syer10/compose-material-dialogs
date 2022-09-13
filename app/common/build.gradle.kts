@@ -27,11 +27,14 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(kotlin("stdlib-common"))
-                api(projects.core)
                 api(compose.ui)
                 api(compose.foundation)
                 api(compose.material)
                 api(compose.animation)
+                api(Dependencies.DateTime.dateTime)
+                api(project(":core"))
+                api(project(":color"))
+                api(project(":datetime"))
             }
         }
         val commonTest by getting {
@@ -83,6 +86,3 @@ kotlin {
     }
 }
 
-shot {
-    tolerance = 1.0 // Tolerance needed for CI
-}
