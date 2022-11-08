@@ -2,7 +2,7 @@ package com.vanpra.composematerialdialogs.datetime.util
 
 import androidx.compose.ui.text.intl.Locale
 import kotlinx.cinterop.convert
-import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.useContents
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
@@ -51,21 +51,19 @@ internal actual fun LocalTime.plusHours(hoursToAdd: Long): LocalTime = toNSDateC
     hour += hoursToAdd
 }.toKotlinInstant().toLocalDateTime(TimeZone.UTC).time
 
-internal fun Locale.toPlatform() = PlatformLocale(toLanguageTag())
+internal fun Locale.toPlatform() = PlatformLocale(language)
 
-internal actual fun Month.getShortLocalName(locale: Locale): String = getCalendar(locale).shortMonthSymbols()
+internal actual fun Month.getShortLocalName(locale: Locale): String = getCalendar(locale).shortStandaloneMonthSymbols()
     .getOrNull(this.ordinal)
     .toString()
 
 internal actual fun Month.getFullLocalName(locale: Locale) =
-    getCalendar(locale).monthSymbols()
+    getCalendar(locale).standaloneMonthSymbols()
         .getOrNull(this.ordinal)
         .toString()
 
-fun DayOfWeek.toIosWeekDayInt() = if (this == DayOfWeek.SUNDAY) 0 else this.ordinal + 1
-
-internal actual fun DayOfWeek.getShortLocalName(locale: Locale) = getCalendar(locale).shortWeekdaySymbols()
-    .getOrNull(toIosWeekDayInt())
+internal actual fun DayOfWeek.getShortLocalName(locale: Locale) = getCalendar(locale).shortStandaloneWeekdaySymbols()
+    .getOrNull(ordinal)
     .toString()
 
 internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int {
@@ -75,17 +73,14 @@ internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int {
         month = ordinal.convert()
     }
     val date = cal.dateFromComponents(dateComponents)!!
-    return memScoped {
-        val range = cal.rangeOfUnit(NSCalendarUnitDay, NSCalendarUnitMonth, date)
-        range.size
-    }
+    val range = cal.rangeOfUnit(NSCalendarUnitDay, NSCalendarUnitMonth, date)
+    return range.useContents { length }.convert()
 }
 
-internal actual operator fun DayOfWeek.plus(days: Long): DayOfWeek = NSDateComponents().apply {
-    weekday = toIosWeekDayInt().convert()
-}.toKotlinInstant().toLocalDateTime(TimeZone.UTC).dayOfWeek
-
+internal actual operator fun DayOfWeek.plus(days: Long): DayOfWeek {
+    return DayOfWeek.values()[(ordinal + days % 7).toInt()]
+}
 
 internal actual fun DayOfWeek.getNarrowDisplayName(locale: Locale): String = getCalendar(locale).veryShortWeekdaySymbols()
-    .getOrNull(toIosWeekDayInt())
+    .getOrNull(ordinal)
     .toString()

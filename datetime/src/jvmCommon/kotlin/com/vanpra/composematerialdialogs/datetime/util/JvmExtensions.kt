@@ -19,13 +19,13 @@ internal actual fun LocalTime.plusHours(hoursToAdd: Long): LocalTime = toJavaLoc
 internal fun Locale.toPlatform() = java.util.Locale.forLanguageTag(toLanguageTag())
 
 internal actual fun Month.getShortLocalName(locale: Locale): String =
-    this.getDisplayName(TextStyle.SHORT, locale.toPlatform())
+    this.getDisplayName(TextStyle.SHORT_STANDALONE, locale.toPlatform())
 
 internal actual fun Month.getFullLocalName(locale: Locale) =
-    this.getDisplayName(TextStyle.FULL, locale.toPlatform())
+    this.getDisplayName(TextStyle.FULL_STANDALONE, locale.toPlatform())
 
 internal actual fun DayOfWeek.getShortLocalName(locale: Locale) =
-    this.getDisplayName(TextStyle.SHORT, locale.toPlatform())
+    this.getDisplayName(TextStyle.SHORT_STANDALONE, locale.toPlatform())
 
 internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int = this.length(isLeapYear)
 
