@@ -1,4 +1,4 @@
-package com.vanpra.composematerialdialogdemos.desktop.demos
+package com.vanpra.composematerialdialogdemos.ios.demos
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable

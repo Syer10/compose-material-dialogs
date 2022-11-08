@@ -19,12 +19,12 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.vanpra.composematerialdialogdemos.desktop.demos.BasicDialogDemo
-import com.vanpra.composematerialdialogdemos.desktop.demos.BasicListDialogDemo
-import com.vanpra.composematerialdialogdemos.desktop.demos.ColorDialogDemo
-import com.vanpra.composematerialdialogdemos.desktop.demos.DateTimeDialogDemo
-import com.vanpra.composematerialdialogdemos.desktop.demos.MultiSelectionDemo
-import com.vanpra.composematerialdialogdemos.desktop.demos.SingleSelectionDemo
+import com.vanpra.composematerialdialogdemos.desktop.demos.BasicDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.desktop.demos.BasicListDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.desktop.demos.ColorDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.desktop.demos.DateTimeDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.desktop.demos.MultiSelectionDemoScreen
+import com.vanpra.composematerialdialogdemos.desktop.demos.SingleSelectionDemoScreen
 import com.vanpra.composematerialdialogdemos.ui.ComposeMaterialDialogsTheme
 
 fun main() = singleWindowApplication {
@@ -36,12 +36,12 @@ fun main() = singleWindowApplication {
 data class DialogSectionData(val title: String, val screen: () -> Screen)
 
 val sections = listOf(
-    DialogSectionData("Basic Dialogs") { BasicDialogDemo() },
-    DialogSectionData("Basic List Dialogs") { BasicListDialogDemo() },
-    DialogSectionData("Single Selection List Dialogs") { SingleSelectionDemo() },
-    DialogSectionData("Multi-Selection List Dialogs") { MultiSelectionDemo() },
-    DialogSectionData("Date and Time Picker Dialogs") { DateTimeDialogDemo() },
-    DialogSectionData("Color Picker Dialogs") { ColorDialogDemo() }
+    DialogSectionData("Basic Dialogs") { BasicDialogDemoScreen() },
+    DialogSectionData("Basic List Dialogs") { BasicListDialogDemoScreen() },
+    DialogSectionData("Single Selection List Dialogs") { SingleSelectionDemoScreen() },
+    DialogSectionData("Multi-Selection List Dialogs") { MultiSelectionDemoScreen() },
+    DialogSectionData("Date and Time Picker Dialogs") { DateTimeDialogDemoScreen() },
+    DialogSectionData("Color Picker Dialogs") { ColorDialogDemoScreen() }
 )
 
 class HomeScreen : Screen {

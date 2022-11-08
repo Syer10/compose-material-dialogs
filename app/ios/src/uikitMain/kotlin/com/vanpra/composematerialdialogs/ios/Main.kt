@@ -1,10 +1,13 @@
 package com.vanpra.composematerialdialogs.ios
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -20,12 +23,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.window.Application
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.vanpra.composematerialdialogdemos.demos.BasicDialogDemo
 import com.vanpra.composematerialdialogdemos.demos.BasicListDialogDemo
 import com.vanpra.composematerialdialogdemos.demos.ColorDialogDemo
 import com.vanpra.composematerialdialogdemos.demos.DateTimeDialogDemo
 import com.vanpra.composematerialdialogdemos.demos.MultiSelectionDemo
 import com.vanpra.composematerialdialogdemos.demos.SingleSelectionDemo
+import com.vanpra.composematerialdialogdemos.ios.demos.BasicDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.ios.demos.BasicListDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.ios.demos.ColorDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.ios.demos.DateTimeDialogDemoScreen
+import com.vanpra.composematerialdialogdemos.ios.demos.MultiSelectionDemoScreen
+import com.vanpra.composematerialdialogdemos.ios.demos.SingleSelectionDemoScreen
 import com.vanpra.composematerialdialogdemos.ui.ComposeMaterialDialogsTheme
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
@@ -56,22 +69,45 @@ fun main() {
     }
 }
 
-data class DialogSectionData(val title: String, val content: @Composable () -> Unit)
+data class DialogSectionData(val title: String, val screen: () -> Screen)
 
 val sections = listOf(
-    DialogSectionData("Basic Dialogs") { BasicDialogDemo() },
-    DialogSectionData("Basic List Dialogs") { BasicListDialogDemo() },
-    DialogSectionData("Single Selection List Dialogs") { SingleSelectionDemo() },
-    DialogSectionData("Multi-Selection List Dialogs") { MultiSelectionDemo() },
-    DialogSectionData("Date and Time Picker Dialogs") { DateTimeDialogDemo() },
-    DialogSectionData("Color Picker Dialogs") { ColorDialogDemo() }
+    DialogSectionData("Basic Dialogs") { BasicDialogDemoScreen() },
+    DialogSectionData("Basic List Dialogs") { BasicListDialogDemoScreen() },
+    DialogSectionData("Single Selection List Dialogs") { SingleSelectionDemoScreen() },
+    DialogSectionData("Multi-Selection List Dialogs") { MultiSelectionDemoScreen() },
+    DialogSectionData("Date and Time Picker Dialogs") { DateTimeDialogDemoScreen() },
+    DialogSectionData("Color Picker Dialogs") { ColorDialogDemoScreen() }
 )
 
-class SkikoAppDelegate : UIResponder, UIApplicationDelegateProtocol {
-    companion object : UIResponderMeta(), UIApplicationDelegateProtocolMeta
+class HomeScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        LazyColumn {
+            items(sections) {
+                TextButton(
+                    onClick = { navigator push it.screen() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .background(MaterialTheme.colors.primaryVariant),
+                ) {
+                    Text(
+                        it.title,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize(Alignment.Center),
+                        color = MaterialTheme.colors.onPrimary
+                    )
+                }
+            }
+        }
+    }
+}
 
-    @OverrideInit
-    constructor() : super()
+class SkikoAppDelegate @OverrideInit constructor() : UIResponder(), UIApplicationDelegateProtocol {
+    companion object : UIResponderMeta(), UIApplicationDelegateProtocolMeta
 
     private var _window: UIWindow? = null
     override fun window() = _window
@@ -83,29 +119,7 @@ class SkikoAppDelegate : UIResponder, UIApplicationDelegateProtocol {
         window = UIWindow(frame = UIScreen.mainScreen.bounds).apply {
             rootViewController = Application("ComposeMaterialDialogs") {
                 ComposeMaterialDialogsTheme {
-                    Column(
-                        Modifier.verticalScroll(rememberScrollState())
-                    ) {
-                        var selection by remember { mutableStateOf<DialogSectionData?>(null) }
-                        sections.fastForEach {
-                            TextButton(
-                                onClick = { selection = it },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp)
-                                    .background(MaterialTheme.colors.primaryVariant),
-                            ) {
-                                Text(
-                                    it.title,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .wrapContentSize(Alignment.Center),
-                                    color = MaterialTheme.colors.onPrimary
-                                )
-                            }
-                        }
-                        selection?.content?.let { it() }
-                    }
+                    Navigator(remember { HomeScreen() })
                 }
             }
             makeKeyAndVisible()

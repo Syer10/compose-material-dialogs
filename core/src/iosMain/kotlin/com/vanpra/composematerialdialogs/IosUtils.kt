@@ -1,23 +1,42 @@
 package com.vanpra.composematerialdialogs
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.DrawerDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.InternalComposeApi
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Application
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupPositionProvider
 import kotlinx.atomicfu.atomic
+import kotlinx.cinterop.useContents
+import org.jetbrains.skiko.SkikoKey
+import platform.UIKit.UIScreen
 import kotlin.math.min
 
 @RequiresOptIn(
@@ -92,26 +111,57 @@ internal actual fun DialogBox(
     properties: MaterialDialogProperties,
     content: @Composable () -> Unit,
 ) {
-    BoxWithConstraints(
-        Modifier.fillMaxSize()
-            .let {
-                if (properties.dismissOnClickOutside) {
-                    it.clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                        onClick = onDismissRequest
-                    )
-                } else it
-            }
-    ) {
-        CompositionLocalProvider(
-            LocalScreenConfiguration provides ScreenConfiguration(
-                maxWidth.value.toInt(),
-                maxHeight.value.toInt()
-            ),
-            content = content
-        )
+    val size = remember {
+        UIScreen.mainScreen.bounds.useContents {
+            IntSize(size.width.toInt(), size.height.toInt())
+        }
     }
+    CompositionLocalProvider(
+        LocalScreenConfiguration provides ScreenConfiguration(
+            size.width,
+            size.height
+        )
+    ) {
+        Popup(
+            onDismissRequest = onDismissRequest,
+            popupPositionProvider = IosPopupPositionProvider,
+            focusable = true,
+            onKeyEvent = {
+                if (properties.dismissOnBackPress && it.type == KeyEventType.KeyDown && it.nativeKeyEvent.key == SkikoKey.KEY_ESCAPE) {
+                    onDismissRequest()
+                    true
+                } else {
+                    false
+                }
+            }
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+                    .background(DrawerDefaults.scrimColor)
+                    .let {
+                        if (properties.dismissOnClickOutside) {
+                            it.pointerInput(onDismissRequest) {
+                                detectTapGestures(onTap = { onDismissRequest() })
+                            }
+                        } else {
+                            it
+                        }
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                content()
+            }
+        }
+    }
+}
+
+object IosPopupPositionProvider : PopupPositionProvider {
+    override fun calculatePosition(
+        anchorBounds: IntRect,
+        windowSize: IntSize,
+        layoutDirection: LayoutDirection,
+        popupContentSize: IntSize
+    ): IntOffset = IntOffset.Zero
 }
 
 @Composable

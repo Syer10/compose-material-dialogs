@@ -1,18 +1,18 @@
-package com.vanpra.composematerialdialogdemos.desktop.demos
+package com.vanpra.composematerialdialogdemos.ios.demos
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
-import com.vanpra.composematerialdialogdemos.demos.DateTimeDialogDemo
+import com.vanpra.composematerialdialogdemos.demos.ColorDialogDemo
 
-class DateTimeDialogDemoScreen : Screen {
+class ColorDialogDemoScreen : Screen {
     override val key: ScreenKey = uniqueScreenKey
     @Composable
     override fun Content() {
         Column {
-            DateTimeDialogDemo()
+            ColorDialogDemo()
         }
     }
 }

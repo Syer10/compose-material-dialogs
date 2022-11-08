@@ -19,7 +19,7 @@ object Dependencies {
     }
 
     object Kotlin {
-        private const val version = "1.7.10"
+        private const val version = "1.7.20"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 
@@ -50,8 +50,8 @@ object Dependencies {
 
         object Compose {
             const val version = "1.2.1"
-            const val compilerVersion = "1.3.0"
-            const val mppVersion = "1.2.0-alpha01-dev753"
+            const val compilerVersion = "1.3.2"
+            const val mppVersion = "1.2.1"
 
             const val ui = "androidx.compose.ui:ui:$version"
             const val material = "androidx.compose.material:material:$version"

@@ -7,7 +7,7 @@ import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.core.screen.uniqueScreenKey
 import com.vanpra.composematerialdialogdemos.demos.BasicDialogDemo
 
-class BasicDialogDemo : Screen {
+class BasicDialogDemoScreen : Screen {
     override val key: ScreenKey = uniqueScreenKey
     @Composable
     override fun Content() {

@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.compose") version "1.2.0-alpha01-dev774" apply false
-    id("com.diffplug.spotless") version "6.0.4"
+    id("org.jetbrains.compose") version "1.2.1" apply false
+    //id("com.diffplug.spotless") version "6.0.4"
     id("org.jetbrains.dokka") version "1.7.10"
 }
 
@@ -35,13 +35,13 @@ tasks.dokkaHtmlMultiModule.configure {
 }
 
 subprojects {
-    plugins.apply("com.diffplug.spotless")
-    spotless {
+    //plugins.apply("com.diffplug.spotless")
+    /*spotless {
         kotlin {
-            target("**/*.kt")
+            target("*")
             ktlint(Dependencies.Ktlint.version)
         }
-    }
+    }*/
 
     tasks.withType<Test> {
         testLogging {
