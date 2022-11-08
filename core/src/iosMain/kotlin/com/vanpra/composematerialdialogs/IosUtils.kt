@@ -137,18 +137,17 @@ internal actual fun DialogBox(
         ) {
             Box(
                 modifier = Modifier.fillMaxSize()
-                    .background(DrawerDefaults.scrimColor)
-                    .let {
-                        if (properties.dismissOnClickOutside) {
-                            it.pointerInput(onDismissRequest) {
-                                detectTapGestures(onTap = { onDismissRequest() })
-                            }
-                        } else {
-                            it
-                        }
-                    },
+                    .background(DrawerDefaults.scrimColor),
                 contentAlignment = Alignment.Center
             ) {
+                if (properties.dismissOnClickOutside) {
+                    Box(
+                        modifier = Modifier.fillMaxSize()
+                            .pointerInput(onDismissRequest) {
+                                detectTapGestures(onTap = { onDismissRequest() })
+                            }
+                    )
+                }
                 content()
             }
         }
