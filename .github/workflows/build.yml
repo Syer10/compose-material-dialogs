@@ -2,11 +2,8 @@ name: Build & test
 
 on:
   push:
-    branches:
-      - main
-      - snapshot
-    paths-ignore:
-      - '**.md'
+    tags:
+      - '*'
   pull_request:
 
 jobs:
