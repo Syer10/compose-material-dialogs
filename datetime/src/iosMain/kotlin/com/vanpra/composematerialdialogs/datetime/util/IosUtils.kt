@@ -8,6 +8,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
 import kotlinx.datetime.toKotlinInstant
 import kotlinx.datetime.toLocalDateTime
 import platform.Foundation.NSCalendar
@@ -70,7 +71,7 @@ internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int {
     val cal = NSCalendar.currentCalendar()
     val dateComponents = NSDateComponents().apply {
         this.year = year.convert()
-        month = ordinal.convert()
+        month = number.convert()
     }
     val date = cal.dateFromComponents(dateComponents)!!
     val range = cal.rangeOfUnit(NSCalendarUnitDay, NSCalendarUnitMonth, date)
