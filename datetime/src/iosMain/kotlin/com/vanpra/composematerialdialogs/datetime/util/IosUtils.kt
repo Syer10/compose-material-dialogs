@@ -64,7 +64,7 @@ internal actual fun Month.getFullLocalName(locale: Locale) =
         .toString()
 
 internal actual fun DayOfWeek.getShortLocalName(locale: Locale) = getCalendar(locale).shortStandaloneWeekdaySymbols()
-    .getOrNull(ordinal)
+    .getOrNull(toNSCalendarWeekday())
     .toString()
 
 internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int {
@@ -79,9 +79,15 @@ internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int {
 }
 
 internal actual operator fun DayOfWeek.plus(days: Long): DayOfWeek {
-    return DayOfWeek.values()[(ordinal + days % 7).toInt()]
+    return DayOfWeek.values()[((ordinal + days) % 7).toInt()]
 }
 
 internal actual fun DayOfWeek.getNarrowDisplayName(locale: Locale): String = getCalendar(locale).veryShortWeekdaySymbols()
-    .getOrNull(ordinal)
+    .getOrNull(toNSCalendarWeekday())
     .toString()
+
+private fun DayOfWeek.toNSCalendarWeekday() = if (this == DayOfWeek.MONDAY) {
+    0 // Monday is 7
+} else {
+    this.ordinal + 1
+}
