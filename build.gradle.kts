@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
 plugins {
     id("org.jetbrains.compose") version "1.5.2" apply false
     //id("com.diffplug.spotless") version "6.0.4"
@@ -40,6 +42,16 @@ subprojects {
             ktlint(Dependencies.Ktlint.version)
         }
     }*/
+
+    tasks.withType<KotlinJvmCompile> {
+        kotlinOptions {
+            jvmTarget = if (name.contains("android", true)) {
+                "1.8"
+            } else {
+                "11"
+            }
+        }
+    }
 
     tasks.withType<Test> {
         testLogging {

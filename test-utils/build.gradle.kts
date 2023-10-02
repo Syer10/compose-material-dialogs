@@ -36,6 +36,12 @@ android {
     }
 }
 
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
 dependencies {
     api(projects.composeMaterialDialogsCore)
 
