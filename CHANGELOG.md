@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.9.4 - 2023-10-01
+- Update Compose Multiplatform to 1.5.2
+- Update kotlin to 1.9.10
+- Support inline dialogs for Desktop
+- Fix iOS Weekday conversion
+
 ### 0.9.3 - 2023-05-07
 - Update Compose Multiplatform to 1.4.0
 - Update kotlin to 1.8.20
