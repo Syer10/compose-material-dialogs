@@ -86,8 +86,8 @@ internal actual fun DayOfWeek.getNarrowDisplayName(locale: Locale): String = get
     .getOrNull(toNSCalendarWeekday())
     .toString()
 
-private fun DayOfWeek.toNSCalendarWeekday() = if (this == DayOfWeek.MONDAY) {
-    0 // Monday is 7
+private fun DayOfWeek.toNSCalendarWeekday() = if (this == DayOfWeek.SUNDAY) {
+    0 // SUNDAY is 7 on ISO and 0 on NSCalendar
 } else {
     this.ordinal + 1
 }
