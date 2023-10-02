@@ -59,10 +59,10 @@ subprojects {
 
     plugins.withType<com.android.build.gradle.BasePlugin> {
         configure<com.android.build.gradle.BaseExtension> {
-            compileSdkVersion(33)
+            compileSdkVersion(34)
             defaultConfig {
                 minSdk = 21
-                targetSdk = 33
+                targetSdk = 34
 
                 testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
                 testApplicationId = "com.vanpra.composematerialdialogs.test"
