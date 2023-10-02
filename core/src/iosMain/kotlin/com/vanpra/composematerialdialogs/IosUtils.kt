@@ -1,34 +1,21 @@
 package com.vanpra.composematerialdialogs
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.DrawerDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.type
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupPositionProvider
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlinx.atomicfu.atomic
 import kotlinx.cinterop.useContents
-import org.jetbrains.skiko.SkikoKey
 import platform.UIKit.UIScreen
 import kotlin.math.min
 
@@ -97,7 +84,6 @@ fun getDialogScreenWidthDp(): Int {
 
 internal val LocalScreenConfiguration = compositionLocalOf<ScreenConfiguration>{ throw IllegalStateException("Unused") }
 
-
 @Composable
 internal actual fun DialogBox(
     onDismissRequest: () -> Unit,
@@ -115,53 +101,25 @@ internal actual fun DialogBox(
             size.height
         )
     ) {
-        Popup(
+        Dialog(
             onDismissRequest = onDismissRequest,
-            popupPositionProvider = IosPopupPositionProvider,
-            focusable = true,
-            onKeyEvent = {
-                if (properties.dismissOnBackPress && it.type == KeyEventType.KeyDown && it.nativeKeyEvent.key == SkikoKey.KEY_ESCAPE) {
-                    onDismissRequest()
-                    true
-                } else {
-                    false
-                }
-            }
+            properties = DialogProperties(
+                dismissOnBackPress = properties.dismissOnBackPress,
+                dismissOnClickOutside = properties.dismissOnClickOutside,
+                usePlatformDefaultWidth = properties.usePlatformDefaultWidth,
+            ),
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-                    .background(DrawerDefaults.scrimColor),
-                contentAlignment = Alignment.Center
-            ) {
-                if (properties.dismissOnClickOutside) {
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                            .pointerInput(onDismissRequest) {
-                                detectTapGestures(onTap = { onDismissRequest() })
-                            }
-                    )
-                }
-                content()
-            }
+            content()
         }
     }
 }
 
-object IosPopupPositionProvider : PopupPositionProvider {
-    override fun calculatePosition(
-        anchorBounds: IntRect,
-        windowSize: IntSize,
-        layoutDirection: LayoutDirection,
-        popupContentSize: IntSize
-    ): IntOffset = IntOffset.Zero
-}
-
 @Composable
-internal actual fun getDialogShape(shape: Shape): Shape = shape
+internal actual fun getDialogShape(inlineDialog: Boolean, shape: Shape): Shape = shape
 
 
 @Composable
-internal actual fun ScreenConfiguration.getMaxHeight(): Dp {
+internal actual fun ScreenConfiguration.getMaxHeight(inlineDialog: Boolean): Dp {
     return if (isLargeDevice()) {
         screenHeightDp.dp - 96.dp
     } else {
@@ -170,15 +128,15 @@ internal actual fun ScreenConfiguration.getMaxHeight(): Dp {
 }
 
 @Composable
-internal actual fun ScreenConfiguration.getPadding(maxWidth: Dp): Dp {
+internal actual fun ScreenConfiguration.getPadding(inlineDialog: Boolean, maxWidth: Dp): Dp {
     val isDialogFullWidth = screenWidthDp == maxWidth.value.toInt()
     return if (isDialogFullWidth) 16.dp else 0.dp
 }
 
-internal actual fun Modifier.dialogHeight(): Modifier = wrapContentHeight()
+internal actual fun Modifier.dialogHeight(inlineDialog: Boolean): Modifier = wrapContentHeight()
 
-internal actual fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier = sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
+internal actual fun Modifier.dialogMaxSize(inlineDialog: Boolean, maxHeight: Dp): Modifier = sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
 
-internal actual fun getLayoutHeight(maxHeightPx: Int, layoutHeight: Int): Int {
+internal actual fun getLayoutHeight(inlineDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int {
     return min(maxHeightPx, layoutHeight)
 }

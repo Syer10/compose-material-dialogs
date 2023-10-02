@@ -122,15 +122,15 @@ internal fun DatePickerImpl(
     allowedDateValidator: (LocalDate) -> Boolean,
     locale: Locale
 ) {
-    val pagerState = rememberPagerState(
-        initialPage = (state.selected.year - state.yearRange.first) * 12 + state.selected.monthNumber - 1
-    )
     val pageCount = (state.yearRange.last - state.yearRange.first + 1) * 12
+    val pagerState = rememberPagerState(
+        initialPage = (state.selected.year - state.yearRange.first) * 12 + state.selected.monthNumber - 1,
+        pageCount =  { pageCount }
+    )
 
     Column(Modifier.fillMaxWidth()) {
         CalendarHeader(title, state, locale)
         HorizontalPager(
-            pageCount = pageCount,
             state = pagerState,
             verticalAlignment = Alignment.Top,
             modifier = Modifier.height(336.dp)

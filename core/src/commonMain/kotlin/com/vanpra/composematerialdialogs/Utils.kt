@@ -30,7 +30,7 @@ internal expect fun isSmallDevice(): Boolean
 internal expect fun isLargeDevice(): Boolean
 
 // Dialog
-
+@Composable
 internal expect fun DialogBox(
     onDismissRequest: () -> Unit,
     properties: MaterialDialogProperties,
@@ -90,22 +90,24 @@ data class MaterialDialogProperties(
     val size: DpSize = DpSize(400.dp, 300.dp),
     val title: String = "Untitled",
     val icon: Painter? = null,
-    val resizable: Boolean = true
+    val resizable: Boolean = true,
+    val inlineDialog: Boolean = false
 )
 
-internal expect fun getDialogShape(shape: Shape): Shape
+@Composable
+internal expect fun getDialogShape(inlineDialog: Boolean, shape: Shape): Shape
 
 @Composable
-internal expect fun ScreenConfiguration.getMaxHeight(): Dp
+internal expect fun ScreenConfiguration.getMaxHeight(inlineDialog: Boolean): Dp
 
 @Composable
-internal expect fun ScreenConfiguration.getPadding(maxWidth: Dp): Dp
+internal expect fun ScreenConfiguration.getPadding(inlineDialog: Boolean, maxWidth: Dp): Dp
 
-internal expect fun Modifier.dialogHeight(): Modifier
+internal expect fun Modifier.dialogHeight(inlineDialog: Boolean): Modifier
 
-internal expect fun Modifier.dialogMaxSize(maxHeight: Dp): Modifier
+internal expect fun Modifier.dialogMaxSize(inlineDialog: Boolean, maxHeight: Dp): Modifier
 
-internal expect fun getLayoutHeight(maxHeightPx: Int, layoutHeight: Int): Int
+internal expect fun getLayoutHeight(inlineDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int
 
 expect class AtomicInt(): Number {
     constructor(initialValue: Int)

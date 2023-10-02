@@ -14,12 +14,12 @@ object Dependencies {
     }
 
     object Kotlin {
-        private const val version = "1.8.20"
+        private const val version = "1.9.10"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 
     object DateTime {
-        private const val version = "0.4.0"
+        private const val version = "0.4.1"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:$version"
     }
 
@@ -44,17 +44,17 @@ object Dependencies {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.6"
-            const val mppVersion = "1.4.0"
+            const val compilerVersion = "1.5.3"
+            const val mppVersion = "1.5.2"
 
-            const val runtime = "androidx.compose.ui:ui:1.4.0"
-            const val ui = "androidx.compose.ui:ui:1.4.0"
-            const val material = "androidx.compose.material:material:1.4.0"
-            const val materialIconsExtended = "androidx.compose.material:material-icons-extended:1.4.0"
-            const val animation = "androidx.compose.animation:animation:1.4.0"
-            const val foundation = "androidx.compose.foundation:foundation:1.4.0"
+            const val runtime = "androidx.compose.ui:ui:1.5.0"
+            const val ui = "androidx.compose.ui:ui:1.5.0"
+            const val material = "androidx.compose.material:material:1.5.0"
+            const val materialIconsExtended = "androidx.compose.material:material-icons-extended:1.5.0"
+            const val animation = "androidx.compose.animation:animation:1.5.0"
+            const val foundation = "androidx.compose.foundation:foundation:1.5.0"
 
-            const val testing = "androidx.compose.ui:ui-test-junit4:1.4.0"
+            const val testing = "androidx.compose.ui:ui-test-junit4:1.5.0"
             const val activity = "androidx.activity:activity-compose:1.4.0"
             const val navigation = "androidx.navigation:navigation-compose:2.4.2"
         }
