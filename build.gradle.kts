@@ -45,10 +45,8 @@ subprojects {
 
     tasks.withType<KotlinJvmCompile> {
         kotlinOptions {
-            jvmTarget = if (name.contains("android", true)) {
-                "1.8"
-            } else {
-                "11"
+            if (name.contains("android", true)) {
+                jvmTarget = "1.8"
             }
         }
     }
