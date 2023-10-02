@@ -33,7 +33,10 @@ fun DialogAndShowButton(
     MaterialDialog(
         dialogState = dialogState,
         buttons = buttons,
-        properties = MaterialDialogProperties(size = size, inlineDialog = true)
+        properties = MaterialDialogProperties(
+            windowSize = size,
+            isWindowDialog = false,
+        )
     ) {
         content()
     }

@@ -86,28 +86,28 @@ data class MaterialDialogProperties(
     val securePolicy: SecurePolicy = SecurePolicy.Inherit,
     val usePlatformDefaultWidth : Boolean = false,
     val decorFitsSystemWindows: Boolean = true,
-    val position: DesktopWindowPosition = DesktopWindowPosition(Alignment.Center),
-    val size: DpSize = DpSize(400.dp, 300.dp),
-    val title: String = "Untitled",
-    val icon: Painter? = null,
-    val resizable: Boolean = true,
-    val inlineDialog: Boolean = false
+    val isWindowDialog: Boolean = true,
+    val windowPosition: DesktopWindowPosition = DesktopWindowPosition(Alignment.Center),
+    val windowSize: DpSize = DpSize(400.dp, 300.dp),
+    val windowTitle: String = "Untitled",
+    val windowIcon: Painter? = null,
+    val windowIsResizable: Boolean = true
 )
 
 @Composable
-internal expect fun getDialogShape(inlineDialog: Boolean, shape: Shape): Shape
+internal expect fun getDialogShape(isWindowDialog: Boolean, shape: Shape): Shape
 
 @Composable
-internal expect fun ScreenConfiguration.getMaxHeight(inlineDialog: Boolean): Dp
+internal expect fun ScreenConfiguration.getMaxHeight(isWindowDialog: Boolean): Dp
 
 @Composable
-internal expect fun ScreenConfiguration.getPadding(inlineDialog: Boolean, maxWidth: Dp): Dp
+internal expect fun ScreenConfiguration.getPadding(isWindowDialog: Boolean, maxWidth: Dp): Dp
 
-internal expect fun Modifier.dialogHeight(inlineDialog: Boolean): Modifier
+internal expect fun Modifier.dialogHeight(isWindowDialog: Boolean): Modifier
 
-internal expect fun Modifier.dialogMaxSize(inlineDialog: Boolean, maxHeight: Dp): Modifier
+internal expect fun Modifier.dialogMaxSize(isWindowDialog: Boolean, maxHeight: Dp): Modifier
 
-internal expect fun getLayoutHeight(inlineDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int
+internal expect fun getLayoutHeight(isWindowDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int
 
 expect class AtomicInt(): Number {
     constructor(initialValue: Int)

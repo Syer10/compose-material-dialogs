@@ -2,6 +2,7 @@ package com.vanpra.composematerialdialogs
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
@@ -49,7 +50,29 @@ internal actual fun DialogBox(
     onDismissRequest: () -> Unit,
     properties: MaterialDialogProperties,
     content: @Composable () -> Unit
-) = if (properties.inlineDialog) {
+) = if (properties.isWindowDialog) {
+    DialogWindow(
+        onCloseRequest = onDismissRequest,
+        state = rememberDialogState(
+            position = properties.windowPosition.toWindowPosition(),
+            size = properties.windowSize
+        ),
+        title = properties.windowTitle,
+        icon = properties.windowIcon,
+        resizable = properties.windowIsResizable,
+        content = {
+            BoxWithConstraints {
+                CompositionLocalProvider(
+                    LocalScreenConfiguration provides ScreenConfiguration(
+                        maxWidth.value.toInt(),
+                        maxHeight.value.toInt()
+                    ),
+                    content = content
+                )
+            }
+        }
+    )
+} else {
     Dialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(
@@ -68,28 +91,6 @@ internal actual fun DialogBox(
             )
         }
     }
-} else {
-    DialogWindow(
-        onCloseRequest = onDismissRequest,
-        state = rememberDialogState(
-            position = properties.position.toWindowPosition(),
-            size = properties.size
-        ),
-        title = properties.title,
-        icon = properties.icon,
-        resizable = properties.resizable,
-        content = {
-            BoxWithConstraints {
-                CompositionLocalProvider(
-                    LocalScreenConfiguration provides ScreenConfiguration(
-                        maxWidth.value.toInt(),
-                        maxHeight.value.toInt()
-                    ),
-                    content = content
-                )
-            }
-        }
-    )
 }
 
 private fun DesktopWindowPosition.toWindowPosition(): WindowPosition {
@@ -101,51 +102,51 @@ private fun DesktopWindowPosition.toWindowPosition(): WindowPosition {
 }
 
 @Composable
-internal actual fun getDialogShape(inlineDialog: Boolean, shape: Shape) = if (inlineDialog) {
-    shape
-} else {
+internal actual fun getDialogShape(isWindowDialog: Boolean, shape: Shape) = if (isWindowDialog) {
     RectangleShape
+} else {
+    shape
 }
 
 @Composable
-internal actual fun ScreenConfiguration.getMaxHeight(inlineDialog: Boolean): Dp {
-    return if (inlineDialog) {
+internal actual fun ScreenConfiguration.getMaxHeight(isWindowDialog: Boolean): Dp {
+    return if (isWindowDialog) {
+        screenHeightDp.dp
+    } else {
         if (isLargeDevice()) {
             screenHeightDp.dp - 96.dp
         } else {
             560.dp
         }
-    } else {
-        screenHeightDp.dp
     }
 }
 
 @Composable
-internal actual fun ScreenConfiguration.getPadding(inlineDialog: Boolean, maxWidth: Dp): Dp {
-    return if (inlineDialog) {
+internal actual fun ScreenConfiguration.getPadding(isWindowDialog: Boolean, maxWidth: Dp): Dp {
+    return if (isWindowDialog) {
+        0.dp
+    } else {
         val isDialogFullWidth = screenWidthDp == maxWidth.value.toInt()
         if (isDialogFullWidth) 16.dp else 0.dp
-    } else {
-        0.dp
     }
 }
 
-internal actual fun Modifier.dialogHeight(inlineDialog: Boolean): Modifier = if (inlineDialog) {
-    wrapContentHeight()
-} else {
+internal actual fun Modifier.dialogHeight(isWindowDialog: Boolean): Modifier = if (isWindowDialog) {
     fillMaxHeight()
-}
-
-internal actual fun Modifier.dialogMaxSize(inlineDialog: Boolean, maxHeight: Dp): Modifier = if (inlineDialog) {
-    sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
 } else {
-    this
+    wrapContentHeight()
 }
 
-internal actual fun getLayoutHeight(inlineDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int {
-    return if (inlineDialog) {
-        min(maxHeightPx, layoutHeight)
-    } else {
+internal actual fun Modifier.dialogMaxSize(isWindowDialog: Boolean, maxHeight: Dp): Modifier = if (isWindowDialog) {
+    fillMaxWidth()
+} else {
+    sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
+}
+
+internal actual fun getLayoutHeight(isWindowDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int {
+    return if (isWindowDialog) {
         maxHeightPx
+    } else {
+        min(maxHeightPx, layoutHeight)
     }
 }
