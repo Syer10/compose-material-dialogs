@@ -1,9 +1,14 @@
+@file:OptIn(BetaInteropApi::class)
+
 package com.vanpra.composematerialdialogs.ios
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,7 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Application
+import androidx.compose.ui.window.ComposeUIViewController
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -36,6 +41,8 @@ import com.vanpra.composematerialdialogdemos.ios.demos.SingleSelectionDemoScreen
 import com.vanpra.composematerialdialogdemos.ui.ComposeMaterialDialogsTheme
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
+import kotlinx.cinterop.BetaInteropApi
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.autoreleasepool
 import kotlinx.cinterop.cstr
 import kotlinx.cinterop.memScoped
@@ -50,6 +57,7 @@ import platform.UIKit.UIResponderMeta
 import platform.UIKit.UIScreen
 import platform.UIKit.UIWindow
 
+@OptIn(ExperimentalForeignApi::class)
 fun main() {
     Napier.base(DebugAntilog())
 
@@ -109,9 +117,10 @@ class SkikoAppDelegate @OverrideInit constructor() : UIResponder(), UIApplicatio
         _window = window
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     override fun application(application: UIApplication, didFinishLaunchingWithOptions: Map<Any?, *>?): Boolean {
         window = UIWindow(frame = UIScreen.mainScreen.bounds).apply {
-            rootViewController = Application("ComposeMaterialDialogs") {
+            rootViewController = ComposeUIViewController {
                 ComposeMaterialDialogsTheme {
                     DialogDemos()
                 }
@@ -138,9 +147,10 @@ fun DialogDemos() {
                     },
                     title = {
                         Text("Demo")
-                    }
+                    },
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.displayCutout)
                 )
-            }
+            },
         ) {
             Box(Modifier.padding(it)) {
                 CurrentScreen()

@@ -1,6 +1,7 @@
 package com.vanpra.composematerialdialogs.datetime.util
 
 import androidx.compose.ui.text.intl.Locale
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.convert
 import kotlinx.cinterop.useContents
 import kotlinx.datetime.DayOfWeek
@@ -18,6 +19,7 @@ import platform.Foundation.NSDateComponents
 import platform.Foundation.calendarIdentifier
 import platform.Foundation.NSLocale as PlatformLocale
 
+@OptIn(ExperimentalForeignApi::class)
 fun LocalTime.toNSDateComponents(): NSDateComponents {
     val components = NSDateComponents()
     components.hour = hour.convert()
@@ -67,6 +69,7 @@ internal actual fun DayOfWeek.getShortLocalName(locale: Locale) = getCalendar(lo
     .getOrNull(toNSCalendarWeekday())
     .toString()
 
+@OptIn(ExperimentalForeignApi::class)
 internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int {
     val cal = NSCalendar.currentCalendar()
     val dateComponents = NSDateComponents().apply {
