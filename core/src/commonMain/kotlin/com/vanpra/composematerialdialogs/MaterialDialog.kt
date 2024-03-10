@@ -1,9 +1,7 @@
 package com.vanpra.composematerialdialogs
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
@@ -233,57 +231,56 @@ fun MaterialDialog(
             elevation = elevation
         ) ?: MaterialTheme.colors.surface
 
-        BoxWithConstraints {
-            DialogBox(
-                properties = properties,
-                onDismissRequest = { onCloseRequest(dialogState) }
+        DialogBox(
+            properties = properties,
+            onDismissRequest = { onCloseRequest(dialogState) }
+        ) {
+            val configuration = rememberScreenConfiguration()
+
+            val maxHeight = configuration.getMaxHeight(properties.isWindowDialog)
+
+            val maxHeightPx = with(LocalDensity.current) { maxHeight.toPx().toInt() }
+
+            val padding = configuration.getPadding(properties.isWindowDialog)
+            Surface(
+                modifier = Modifier
+                    .dialogMaxSize(properties.isWindowDialog, maxHeight = maxHeight)
+                    .padding(horizontal = padding)
+                    .clipToBounds()
+                    .dialogHeight(properties.isWindowDialog)
+                    .testTag("dialog"),
+                shape = getDialogShape(properties.isWindowDialog, shape),
+                color = backgroundColor,
+                border = border,
+                elevation = elevation
             ) {
-                val configuration = rememberScreenConfiguration()
-
-                val maxHeight = configuration.getMaxHeight(properties.isWindowDialog)
-
-                val maxHeightPx = with(LocalDensity.current) { maxHeight.toPx().toInt() }
-                val padding = configuration.getPadding(properties.isWindowDialog, maxWidth)
-                Surface(
-                    modifier = Modifier
-                        .dialogMaxSize(properties.isWindowDialog, maxHeight = maxHeight)
-                        .padding(horizontal = padding)
-                        .clipToBounds()
-                        .dialogHeight(properties.isWindowDialog)
-                        .testTag("dialog"),
-                    shape = getDialogShape(properties.isWindowDialog, shape),
-                    color = backgroundColor,
-                    border = border,
-                    elevation = elevation
-                ) {
-                    Layout(
-                        content = {
-                            dialogScope.DialogButtonsLayout(
-                                modifier = Modifier.layoutId("buttons"),
-                                content = buttons
-                            )
-                            Column(Modifier.layoutId("content")) { content(dialogScope) }
-                        }
-                    ) { measurables, constraints ->
-                        val buttonsHeight =
-                            measurables[0].minIntrinsicHeight(constraints.maxWidth)
-                        val buttonsPlaceable = measurables[0].measure(
-                            constraints.copy(maxHeight = buttonsHeight, minHeight = 0)
+                Layout(
+                    content = {
+                        dialogScope.DialogButtonsLayout(
+                            modifier = Modifier.layoutId("buttons"),
+                            content = buttons
                         )
+                        Column(Modifier.layoutId("content")) { content(dialogScope) }
+                    }
+                ) { measurables, constraints ->
+                    val buttonsHeight =
+                        measurables[0].minIntrinsicHeight(constraints.maxWidth)
+                    val buttonsPlaceable = measurables[0].measure(
+                        constraints.copy(maxHeight = buttonsHeight, minHeight = 0)
+                    )
 
-                        val contentPlaceable = measurables[1].measure(
-                            constraints.copy(
-                                maxHeight = maxHeightPx - buttonsPlaceable.height,
-                                minHeight = 0,
-                            )
+                    val contentPlaceable = measurables[1].measure(
+                        constraints.copy(
+                            maxHeight = maxHeightPx - buttonsPlaceable.height,
+                            minHeight = 0,
                         )
+                    )
 
-                        val height = getLayoutHeight(properties.isWindowDialog, maxHeightPx, buttonsPlaceable.height + contentPlaceable.height)
+                    val height = getLayoutHeight(properties.isWindowDialog, maxHeightPx, buttonsPlaceable.height + contentPlaceable.height)
 
-                        return@Layout layout(constraints.maxWidth, height) {
-                            contentPlaceable.place(0, 0)
-                            buttonsPlaceable.place(0, height - buttonsPlaceable.height)
-                        }
+                    return@Layout layout(constraints.maxWidth, height) {
+                        contentPlaceable.place(0, 0)
+                        buttonsPlaceable.place(0, height - buttonsPlaceable.height)
                     }
                 }
             }

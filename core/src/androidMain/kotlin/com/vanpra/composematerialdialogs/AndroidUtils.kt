@@ -73,15 +73,15 @@ internal actual fun ScreenConfiguration.getMaxHeight(isWindowDialog: Boolean): D
 }
 
 @Composable
-internal actual fun ScreenConfiguration.getPadding(isWindowDialog: Boolean, maxWidth: Dp): Dp {
-    val isDialogFullWidth = screenWidthDp == maxWidth.value.toInt()
+internal actual fun ScreenConfiguration.getPadding(isWindowDialog: Boolean): Dp {
+    val isDialogFullWidth = screenWidthDp == LocalConfiguration.current.screenWidthDp
     return if (isDialogFullWidth) 16.dp else 0.dp
 }
 
 internal actual fun Modifier.dialogHeight(isWindowDialog: Boolean): Modifier = wrapContentHeight()
 
 internal actual fun Modifier.dialogMaxSize(isWindowDialog: Boolean, maxHeight: Dp): Modifier =
-    sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
+    this.sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
 
 internal actual fun getLayoutHeight(isWindowDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int {
     return min(maxHeightPx, layoutHeight)

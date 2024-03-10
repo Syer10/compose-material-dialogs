@@ -16,7 +16,7 @@ dependencies {
     implementation(Dependencies.ComposeMaterialDialogs.datetime)
     implementation(Dependencies.ComposeMaterialDialogs.color)*/
 
-    implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc07")
+    implementation("cafe.adriel.voyager:voyager-navigator:1.0.0")
 
     implementation(Dependencies.DateTime.dateTime)
 }

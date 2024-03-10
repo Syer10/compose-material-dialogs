@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
-    id("org.jetbrains.compose") version "1.5.2" apply false
+    id("org.jetbrains.compose") version "1.6.0" apply false
     //id("com.diffplug.spotless") version "6.0.4"
-    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 buildscript {
@@ -15,7 +15,7 @@ buildscript {
 
     dependencies {
         classpath(Dependencies.Kotlin.gradlePlugin)
-        classpath("com.android.tools.build:gradle:8.1.2")
+        classpath("com.android.tools.build:gradle:8.3.0")
         classpath("com.vanniktech:gradle-maven-publish-plugin:0.25.3")
         classpath(Dependencies.Shot.core)
     }

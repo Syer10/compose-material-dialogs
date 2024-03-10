@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -121,12 +124,15 @@ internal actual fun ScreenConfiguration.getMaxHeight(isWindowDialog: Boolean): D
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal actual fun ScreenConfiguration.getPadding(isWindowDialog: Boolean, maxWidth: Dp): Dp {
+internal actual fun ScreenConfiguration.getPadding(isWindowDialog: Boolean): Dp {
     return if (isWindowDialog) {
         0.dp
     } else {
-        val isDialogFullWidth = screenWidthDp == maxWidth.value.toInt()
+        val isDialogFullWidth = screenWidthDp == with(LocalDensity.current) {
+            LocalWindowInfo.current.containerSize.width.toDp()
+        }.value.toInt()
         if (isDialogFullWidth) 16.dp else 0.dp
     }
 }

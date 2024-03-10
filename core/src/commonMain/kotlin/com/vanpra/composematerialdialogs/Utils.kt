@@ -101,7 +101,7 @@ internal expect fun getDialogShape(isWindowDialog: Boolean, shape: Shape): Shape
 internal expect fun ScreenConfiguration.getMaxHeight(isWindowDialog: Boolean): Dp
 
 @Composable
-internal expect fun ScreenConfiguration.getPadding(isWindowDialog: Boolean, maxWidth: Dp): Dp
+internal expect fun ScreenConfiguration.getPadding(isWindowDialog: Boolean): Dp
 
 internal expect fun Modifier.dialogHeight(isWindowDialog: Boolean): Modifier
 

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -25,8 +27,18 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    applyDefaultHierarchyTemplate {
+        common {
+            group("jvmCommon") {
+                withAndroidTarget()
+                withJvm()
+            }
+        }
+    }
+
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(kotlin("stdlib-common"))
                 api(compose.ui)
@@ -39,51 +51,11 @@ kotlin {
                 api(projects.composeMaterialDialogsDatetime)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
-        }
-
-        val jvmCommon by creating {
-            dependsOn(commonMain)
-        }
-
-        val jvmMain by getting {
-            dependsOn(jvmCommon)
-            dependencies {
-                api(kotlin("stdlib-jdk8"))
-            }
-        }
-        val jvmTest by getting
-
-        val androidMain by getting {
-            dependsOn(jvmCommon)
-            dependencies {
-                api(kotlin("stdlib-jdk8"))
-                api(Dependencies.AndroidX.Compose.ui)
-                api(Dependencies.AndroidX.Compose.foundation)
-                api(Dependencies.AndroidX.Compose.material)
-                api(Dependencies.AndroidX.Compose.animation)
-            }
-        }
-        val androidUnitTest by getting
-
-        val iosMain by creating {
-            dependsOn(commonMain)
-        }
-        val iosTest by creating {
-            dependsOn(commonTest)
-        }
-
-        listOf(
-            "iosX64",
-            "iosArm64",
-            "iosSimulatorArm64",
-        ).forEach {
-            getByName(it + "Main").dependsOn(iosMain)
-            getByName(it + "Test").dependsOn(iosTest)
         }
     }
 }

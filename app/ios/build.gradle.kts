@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
@@ -24,10 +25,21 @@ kotlin {
     iosArm64("uikitArm64", configuration)
     iosSimulatorArm64("uikitSimulatorArm64", configuration)
 
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    applyHierarchyTemplate {
+        common {
+            group("uikit") {
+                withIosArm64()
+                withIosX64()
+                withIosSimulatorArm64()
+            }
+        }
+    }
+
     sourceSets {
         val commonMain by getting
         val commonTest by getting
-        val uikitMain by creating {
+        getByName("uikitMain") {
             dependsOn(commonMain)
             dependencies {
                 implementation(projects.app.common)
@@ -44,36 +56,27 @@ kotlin {
 
                 implementation("io.github.aakira:napier:2.6.1")
 
-                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc07")
-            }
-        }
-        val uikitTest by creating {
-            dependsOn(commonTest)
-        }
-
-        listOf(
-            "uikitX64",
-            "uikitArm64",
-            "uikitSimulatorArm64",
-        ).forEach {
-            getByName(it + "Main").dependsOn(uikitMain)
-            getByName(it + "Test").dependsOn(uikitTest)
-        }
-    }
-}
-
-compose.experimental {
-    uikit.application {
-        bundleIdPrefix = "com.vanpra.composematerialdialogs.app.ios"
-        projectName = "ComposeMaterialDialogs"
-        // ./gradlew :app:ios:iosDeployIPhone13Debug
-        deployConfigurations {
-            simulator("IPhone13") {
-                device = org.jetbrains.compose.experimental.dsl.IOSDevices.IPHONE_13
+                implementation("cafe.adriel.voyager:voyager-navigator:1.0.0")
             }
         }
     }
 }
+
+//compose.experimental {
+//    uikit.application {
+//        bundleIdPrefix = "com.vanpra.composematerialdialogs.app.ios"
+//        projectName = "ComposeMaterialDialogs"
+//        // ./gradlew :app:ios:iosDeployIPhone13Debug
+//        deployConfigurations {
+//            simulator("IPhone13") {
+//                device = org.jetbrains.compose.experimental.dsl.IOSDevices.IPHONE_13
+//            }
+//            simulator("IPadPro11") {
+//                device = org.jetbrains.compose.experimental.dsl.IOSDevices.IPAD_PRO_11_INCH
+//            }
+//        }
+//    }
+//}
 
 kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {

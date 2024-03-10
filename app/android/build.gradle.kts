@@ -13,8 +13,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    packagingOptions.excludes.addAll(
-        listOf(
+    packagingOptions.setExcludes(
+        setOf(
             "META-INF/LICENSE",
             "META-INF/AL2.0",
             "META-INF/**",
