@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
@@ -92,10 +93,14 @@ internal actual fun DialogBox(
 ) {
     val size = LocalWindowInfo.current.containerSize
     CompositionLocalProvider(
-        LocalScreenConfiguration provides ScreenConfiguration(
-            size.width,
-            size.height
-        )
+        LocalScreenConfiguration provides with(LocalDensity.current) {
+            remember(this, size) {
+                ScreenConfiguration(
+                    size.width.toDp().value.toInt(),
+                    size.height.toDp().value.toInt()
+                )
+            }
+        }
     ) {
         Dialog(
             onDismissRequest = onDismissRequest,

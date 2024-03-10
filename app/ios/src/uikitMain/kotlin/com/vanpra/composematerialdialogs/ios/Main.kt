@@ -1,5 +1,3 @@
-@file:OptIn(BetaInteropApi::class)
-
 package com.vanpra.composematerialdialogs.ios
 
 import androidx.compose.foundation.background
@@ -41,32 +39,12 @@ import com.vanpra.composematerialdialogdemos.ios.demos.SingleSelectionDemoScreen
 import com.vanpra.composematerialdialogdemos.ui.ComposeMaterialDialogsTheme
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import kotlinx.cinterop.BetaInteropApi
-import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.autoreleasepool
-import kotlinx.cinterop.cstr
-import kotlinx.cinterop.memScoped
-import kotlinx.cinterop.toCValues
-import platform.Foundation.NSStringFromClass
-import platform.UIKit.UIApplication
-import platform.UIKit.UIApplicationDelegateProtocol
-import platform.UIKit.UIApplicationDelegateProtocolMeta
-import platform.UIKit.UIApplicationMain
-import platform.UIKit.UIResponder
-import platform.UIKit.UIResponderMeta
-import platform.UIKit.UIScreen
-import platform.UIKit.UIWindow
 
-@OptIn(ExperimentalForeignApi::class)
-fun main() {
+fun MainViewController() = run {
     Napier.base(DebugAntilog())
-
-    val args = emptyArray<String>()
-    memScoped {
-        val argc = args.size + 1
-        val argv = (arrayOf("skikoApp") + args).map { it.cstr.ptr }.toCValues()
-        autoreleasepool {
-            UIApplicationMain(argc, argv, null, NSStringFromClass(SkikoAppDelegate))
+    ComposeUIViewController {
+        ComposeMaterialDialogsTheme {
+            DialogDemos()
         }
     }
 }
@@ -105,29 +83,6 @@ class HomeScreen : Screen {
                 }
             }
         }
-    }
-}
-
-class SkikoAppDelegate @OverrideInit constructor() : UIResponder(), UIApplicationDelegateProtocol {
-    companion object : UIResponderMeta(), UIApplicationDelegateProtocolMeta
-
-    private var _window: UIWindow? = null
-    override fun window() = _window
-    override fun setWindow(window: UIWindow?) {
-        _window = window
-    }
-
-    @OptIn(ExperimentalForeignApi::class)
-    override fun application(application: UIApplication, didFinishLaunchingWithOptions: Map<Any?, *>?): Boolean {
-        window = UIWindow(frame = UIScreen.mainScreen.bounds).apply {
-            rootViewController = ComposeUIViewController {
-                ComposeMaterialDialogsTheme {
-                    DialogDemos()
-                }
-            }
-            makeKeyAndVisible()
-        }
-        return true
     }
 }
 
