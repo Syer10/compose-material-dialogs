@@ -1,11 +1,16 @@
 package com.vanpra.composematerialdialogs.color
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.AnchoredDraggableState
+import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -23,13 +28,10 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
-import androidx.compose.material.SwipeableState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.rememberSwipeableState
-import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.MutableState
@@ -96,6 +98,7 @@ data class ARGBPickerState internal constructor(
  * @param onColorSelected a function which is called with a [Color]. The timing of this call is
  * dictated by [waitForPositiveButton]
  */
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterialApi
 @Composable
 fun MaterialDialogScope.colorChooser(
@@ -108,17 +111,28 @@ fun MaterialDialogScope.colorChooser(
 ) {
     BoxWithConstraints {
         val selectedColor = remember { mutableStateOf(colors[initialSelection]) }
-        val anchors = remember(argbPickerState.allowCustomARGB) {
+        val anchors: DraggableAnchors<ColorPickerScreen> = remember(argbPickerState.allowCustomARGB) {
             if (argbPickerState.allowCustomARGB) {
-                mapOf(
-                    0f to ColorPickerScreen.Palette,
-                    constraints.maxWidth.toFloat() to ColorPickerScreen.ARGB
-                )
+                DraggableAnchors {
+                    ColorPickerScreen.Palette at 0f
+                    ColorPickerScreen.ARGB at constraints.maxWidth.toFloat()
+                }
             } else {
-                mapOf(0f to ColorPickerScreen.Palette)
+                DraggableAnchors {
+                    ColorPickerScreen.Palette at 0f
+                }
             }
         }
-        val swipeState = rememberSwipeableState(ColorPickerScreen.Palette)
+        val density = LocalDensity.current
+        val swipeState = remember {
+            AnchoredDraggableState(
+                ColorPickerScreen.Palette,
+                anchors = anchors,
+                positionalThreshold = { distance -> distance * 0.5f },
+                velocityThreshold = { with(density) { 125.dp.toPx() } },
+                animationSpec = tween()
+            )
+        }
 
         if (waitForPositiveButton) {
             DialogCallback { onColorSelected(selectedColor.value) }
@@ -132,12 +146,10 @@ fun MaterialDialogScope.colorChooser(
         Column(
             Modifier
                 .padding(bottom = 8.dp)
-                .swipeable(
+                .anchoredDraggable(
                     swipeState,
-                    anchors = anchors,
                     orientation = Orientation.Horizontal,
                     reverseDirection = true,
-                    resistance = null,
                     enabled = argbPickerState.allowCustomARGB
                 )
         ) {
@@ -169,7 +181,7 @@ fun MaterialDialogScope.colorChooser(
                 layout(constraints.maxWidth, height) {
                     placeables.forEachIndexed { index, placeable ->
                         placeable.place(
-                            x = -swipeState.offset.value.toInt() + index * constraints.maxWidth,
+                            x = -swipeState.offset.toInt() + index * constraints.maxWidth,
                             y = 0
                         )
                     }
@@ -179,9 +191,10 @@ fun MaterialDialogScope.colorChooser(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterialApi
 @Composable
-private fun PageIndicator(swipeState: SwipeableState<ColorPickerScreen>, constraints: Constraints) {
+private fun PageIndicator(swipeState: AnchoredDraggableState<ColorPickerScreen>, constraints: Constraints) {
     BoxWithConstraints {
         val indicatorRadius = remember { constraints.maxWidth * 0.01f }
         Row(
@@ -190,8 +203,8 @@ private fun PageIndicator(swipeState: SwipeableState<ColorPickerScreen>, constra
                 .wrapContentWidth(Alignment.CenterHorizontally)
                 .padding(top = 8.dp, bottom = 16.dp)
         ) {
-            val ratio = remember(constraints.maxWidth, swipeState.offset.value) {
-                swipeState.offset.value / constraints.maxWidth.toFloat()
+            val ratio = remember(constraints.maxWidth, swipeState.offset) {
+                swipeState.offset / constraints.maxWidth.toFloat()
             }
             val color = MaterialTheme.colors.onBackground
             Canvas(modifier = Modifier) {
@@ -400,7 +413,7 @@ private fun ColorGridLayout(
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    Icons.Default.ArrowBack,
+                    Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Go back to main color page",
                     colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
                     contentScale = ContentScale.Fit,
