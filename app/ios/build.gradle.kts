@@ -53,28 +53,3 @@ kotlin {
         }
     }
 }
-
-//compose.experimental {
-//    uikit.application {
-//        bundleIdPrefix = "com.vanpra.composematerialdialogs.app.ios"
-//        projectName = "ComposeMaterialDialogs"
-//        // ./gradlew :app:ios:iosDeployIPhone13Debug
-//        deployConfigurations {
-//            simulator("IPhone13") {
-//                device = org.jetbrains.compose.experimental.dsl.IOSDevices.IPHONE_13
-//            }
-//            simulator("IPadPro11") {
-//                device = org.jetbrains.compose.experimental.dsl.IOSDevices.IPAD_PRO_11_INCH
-//            }
-//        }
-//    }
-//}
-
-kotlin {
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        binaries.all {
-            // TODO: the current compose binary surprises LLVM, so disable checks for now.
-            freeCompilerArgs = freeCompilerArgs + "-Xdisable-phases=VerifyBitcode"
-        }
-    }
-}
