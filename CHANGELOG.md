@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.9.5 - 2024-03-10
+- Update Compose Multiplatform to 1.6.0
+- Update Kotlin to 1.9.22
+- Remove root BoxWithConstrains and use experimental WindowInfo api, fixes certain crashes
+- Remove deprecated Swipeable from color module and use experimental AnchoredDraggable
+
 ### 0.9.4 - 2023-10-01
 - Update Compose Multiplatform to 1.5.2
 - Update kotlin to 1.9.10
