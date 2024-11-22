@@ -47,5 +47,4 @@ internal actual fun Canvas.drawText(
         y = y + (radius * sin(angle)) + (abs(font.metrics.height)) / 2,
         paint = Paint()
     )
-
 }

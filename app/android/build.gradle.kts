@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -31,10 +33,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.AndroidX.Compose.compilerVersion
-    }
 }
 
 kotlin {
@@ -59,11 +57,11 @@ dependencies {
 
     implementation(Dependencies.DateTime.dateTime)
 
-    implementation(Dependencies.AndroidX.Compose.ui)
-    implementation(Dependencies.AndroidX.Compose.material)
-    implementation(Dependencies.AndroidX.Compose.materialIconsExtended)
-    implementation(Dependencies.AndroidX.Compose.animation)
-    implementation(Dependencies.AndroidX.Compose.foundation)
+    implementation(compose.ui)
+    implementation(compose.material)
+    implementation(compose.materialIconsExtended)
+    implementation(compose.animation)
+    implementation(compose.foundation)
 
     implementation(Dependencies.AndroidX.Compose.activity)
     implementation(Dependencies.AndroidX.Compose.navigation)

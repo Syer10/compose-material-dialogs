@@ -1,6 +1,10 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -30,10 +34,6 @@ android {
         buildConfig = false
         compose = true
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = Dependencies.AndroidX.Compose.compilerVersion
-    }
 }
 
 kotlin {
@@ -45,11 +45,12 @@ kotlin {
 dependencies {
     api(projects.composeMaterialDialogsCore)
 
-    implementation(Dependencies.AndroidX.Compose.ui)
-    implementation(Dependencies.AndroidX.Compose.material)
-    implementation(Dependencies.AndroidX.Compose.materialIconsExtended)
+    implementation(compose.ui)
+    implementation(compose.material)
+    implementation(compose.materialIconsExtended)
     implementation(Dependencies.AndroidX.Compose.activity)
 
-    implementation(Dependencies.AndroidX.Compose.testing)
+    @OptIn(ExperimentalComposeLibrary::class)
+    implementation(compose.uiTest)
     implementation(Dependencies.Shot.android)
 }

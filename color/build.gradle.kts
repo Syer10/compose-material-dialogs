@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("common-library")
@@ -8,16 +9,20 @@ plugins {
 kotlin {
     androidTarget {
         publishAllLibraryVariants()
-        compilations {
-            all {
-                kotlinOptions.jvmTarget = "1.8"
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget = JvmTarget.JVM_1_8
+                }
             }
         }
     }
     jvm {
-        compilations {
-            all {
-                kotlinOptions.jvmTarget = "11"
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget = JvmTarget.JVM_11
+                }
             }
         }
     }

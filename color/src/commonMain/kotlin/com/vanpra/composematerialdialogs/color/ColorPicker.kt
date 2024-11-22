@@ -1,5 +1,6 @@
 package com.vanpra.composematerialdialogs.color
 
+import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -24,7 +25,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
@@ -98,8 +98,7 @@ data class ARGBPickerState internal constructor(
  * @param onColorSelected a function which is called with a [Color]. The timing of this call is
  * dictated by [waitForPositiveButton]
  */
-@OptIn(ExperimentalFoundationApi::class)
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
 fun MaterialDialogScope.colorChooser(
     colors: List<Color>,
@@ -130,7 +129,8 @@ fun MaterialDialogScope.colorChooser(
                 anchors = anchors,
                 positionalThreshold = { distance -> distance * 0.5f },
                 velocityThreshold = { with(density) { 125.dp.toPx() } },
-                animationSpec = tween()
+                snapAnimationSpec = tween(),
+                decayAnimationSpec = exponentialDecay(), // todo verify if looks the same as previous
             )
         }
 
@@ -191,8 +191,7 @@ fun MaterialDialogScope.colorChooser(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
 private fun PageIndicator(swipeState: AnchoredDraggableState<ColorPickerScreen>, constraints: Constraints) {
     BoxWithConstraints {

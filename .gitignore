@@ -12,6 +12,7 @@ local.properties
 secret.properties
 debug.keystore
 /docs/api
+.kotlin
 
 # Do not commit plain-text signing info
 release/*.properties

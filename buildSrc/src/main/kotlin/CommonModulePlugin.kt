@@ -17,19 +17,8 @@ class CommonModulePlugin: Plugin<Project> {
             apply("shot")
             apply("org.jetbrains.dokka")
             apply("org.jetbrains.compose")
+            apply("org.jetbrains.kotlin.plugin.compose")
         }
-    }
-
-    private fun DependencyHandler.androidDeps(project: Project) {
-        implementation(Dependencies.AndroidX.coreKtx)
-
-        androidTestImplementation(Dependencies.AndroidX.Compose.activity)
-        androidTestImplementation(Dependencies.AndroidX.Compose.testing)
-        androidTestImplementation(Dependencies.AndroidX.Testing.core)
-        androidTestImplementation(Dependencies.AndroidX.Testing.rules)
-        androidTestImplementation(Dependencies.AndroidX.Testing.runner)
-        add("androidTestImplementation", project.project(":test-utils"))
-
     }
 
     private fun DependencyHandler.implementation(dependency: String) {

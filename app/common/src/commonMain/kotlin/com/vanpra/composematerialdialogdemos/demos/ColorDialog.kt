@@ -1,10 +1,10 @@
 package com.vanpra.composematerialdialogdemos.demos
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
@@ -25,7 +25,7 @@ import com.vanpra.composematerialdialogs.title
 /**
  * @brief Color Picker Demos
  */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ColorDialogDemo() {
     var waitForPositiveButton by remember { mutableStateOf(false) }

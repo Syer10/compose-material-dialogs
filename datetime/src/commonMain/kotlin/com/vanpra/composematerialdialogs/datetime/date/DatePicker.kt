@@ -34,6 +34,8 @@ import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -114,7 +116,6 @@ fun MaterialDialogScope.datepicker(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun DatePickerImpl(
     title: String,
@@ -164,7 +165,6 @@ internal fun DatePickerImpl(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun YearPicker(
     viewDate: LocalDate,
@@ -226,7 +226,6 @@ private fun YearPickerItem(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CalendarViewHeader(
     viewDate: LocalDate,
@@ -276,7 +275,7 @@ private fun CalendarViewHeader(
                 .align(Alignment.CenterEnd)
         ) {
             Icon(
-                Icons.Default.KeyboardArrowLeft,
+                Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 contentDescription = "Previous Month",
                 modifier = Modifier
                     .testTag("dialog_date_prev_month")
@@ -295,7 +294,7 @@ private fun CalendarViewHeader(
             Spacer(modifier = Modifier.width(24.dp))
 
             Icon(
-                Icons.Default.KeyboardArrowRight,
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "Next Month",
                 modifier = Modifier
                     .testTag("dialog_date_next_month")
