@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -35,12 +38,6 @@ android {
     }
 }
 
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
 dependencies {
     implementation(projects.app.common)
 
@@ -67,4 +64,10 @@ dependencies {
     implementation(Dependencies.AndroidX.Compose.navigation)
 
     coreLibraryDesugaring(Dependencies.desugar)
+}
+
+tasks.withType<KotlinJvmCompile> {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_1_8
+    }
 }
