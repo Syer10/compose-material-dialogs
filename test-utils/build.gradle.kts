@@ -1,4 +1,6 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     id("com.android.library")
@@ -36,12 +38,6 @@ android {
     }
 }
 
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
 dependencies {
     api(projects.composeMaterialDialogsCore)
 
@@ -50,7 +46,12 @@ dependencies {
     implementation(compose.materialIconsExtended)
     implementation(Dependencies.AndroidX.Compose.activity)
 
-    @OptIn(ExperimentalComposeLibrary::class)
-    implementation(compose.uiTest)
+    implementation(compose.desktop.uiTestJUnit4)
     implementation(Dependencies.Shot.android)
+}
+
+tasks.withType<KotlinJvmCompile> {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_1_8
+    }
 }

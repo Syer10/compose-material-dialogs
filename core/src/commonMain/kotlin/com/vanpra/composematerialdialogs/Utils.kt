@@ -109,7 +109,7 @@ internal expect fun Modifier.dialogMaxSize(isWindowDialog: Boolean, maxHeight: D
 
 internal expect fun getLayoutHeight(isWindowDialog: Boolean, maxHeightPx: Int, layoutHeight: Int): Int
 
-expect class AtomicInt(): Number {
+expect class AtomicInt() {
     constructor(initialValue: Int)
     fun set(newValue: Int)
     fun getAndIncrement(): Int

@@ -30,7 +30,7 @@ import kotlin.math.min
 )
 annotation class InternalComposeMaterialDialogsApi
 
-actual class AtomicInt actual constructor(initialValue: Int): Number() {
+actual class AtomicInt actual constructor(initialValue: Int) {
     private val value = atomic(initialValue)
     actual constructor() : this(0)
 
@@ -38,19 +38,6 @@ actual class AtomicInt actual constructor(initialValue: Int): Number() {
         value.value = newValue
     }
     actual fun getAndIncrement(): Int = value.getAndIncrement()
-    override fun toByte(): Byte = value.value.toByte()
-
-    override fun toChar(): Char = value.value.toChar()
-
-    override fun toDouble(): Double = value.value.toDouble()
-
-    override fun toFloat(): Float = value.value.toFloat()
-
-    override fun toInt(): Int = value.value
-
-    override fun toLong(): Long = value.value.toLong()
-
-    override fun toShort(): Short = value.value.toShort()
 }
 
 
