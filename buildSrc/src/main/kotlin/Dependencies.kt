@@ -37,7 +37,7 @@ object Dependencies {
         const val coreKtx = "androidx.core:core-ktx:1.15.0"
 
         object Testing {
-            const val version = "1.4.0"
+            const val version = "1.6.1"
             const val core = "androidx.test:core:$version"
             const val rules = "androidx.test:rules:$version"
             const val runner = "androidx.test:runner:$version"
