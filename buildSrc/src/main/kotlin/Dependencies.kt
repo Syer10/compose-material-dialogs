@@ -24,7 +24,7 @@ object Dependencies {
     }
 
     object Shot {
-        private const val version = "5.14.1"
+        private const val version = "6.1.0"
         const val core = "com.karumi:shot:$version"
         const val android = "com.karumi:shot-android:$version"
     }
