@@ -2,10 +2,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
-    id("org.jetbrains.compose") version "1.7.0" apply false
+    id("org.jetbrains.compose") version "1.9.0" apply false
     //id("com.diffplug.spotless") version "6.0.4"
     id("org.jetbrains.dokka") version "2.0.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
 }
 
 buildscript {
@@ -17,8 +17,8 @@ buildscript {
 
     dependencies {
         classpath(Dependencies.Kotlin.gradlePlugin)
-        classpath("com.android.tools.build:gradle:8.10.1")
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.33.0")
+        classpath("com.android.tools.build:gradle:8.12.0")
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.34.0")
         classpath(Dependencies.Shot.core)
     }
 }
@@ -61,10 +61,10 @@ subprojects {
 
     plugins.withType<com.android.build.gradle.BasePlugin> {
         configure<com.android.build.gradle.BaseExtension> {
-            compileSdkVersion(35)
+            compileSdkVersion(36)
             defaultConfig {
                 minSdk = 21
-                targetSdk = 35
+                targetSdk = 36
 
                 testInstrumentationRunner = "com.karumi.shot.ShotTestRunner"
                 testApplicationId = "com.vanpra.composematerialdialogs.test"

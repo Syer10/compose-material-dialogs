@@ -5,12 +5,14 @@ package com.vanpra.composematerialdialogs.datetime.util
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asComposePaint
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import com.vanpra.composematerialdialogs.InternalComposeMaterialDialogsApi
 import com.vanpra.composematerialdialogs.getDialogScreenWidthDp
 import org.jetbrains.skia.Font
 import org.jetbrains.skia.Paint
+import org.jetbrains.skia.PaintMode
 import org.jetbrains.skia.TextBlobBuilder
 import kotlin.math.abs
 import kotlin.math.cos
@@ -38,18 +40,33 @@ internal actual fun Canvas.drawText(
     isCenter: Boolean?,
     alpha: Int,
 ) {
-    val outerText = Paint()
-    outerText.color = color.toArgb()
+    val paint = Paint().apply {
+        this.color = color.toArgb()
+        this.isAntiAlias = true
+    }
 
-    val font = Font()
+    val font = Font().apply {
+        size = textSize
+    }
 
-    nativeCanvas.drawTextBlob(
-        blob = TextBlobBuilder().apply {
-            appendRun(font = font, text = text, x = 0f, y = 0f)
-        }.build()!!,
-        x = x + (radius * cos(angle)),
-        y = y + (radius * sin(angle)) + (abs(font.metrics.height)) / 2,
-        paint = Paint()
+    val bounds = font.measureText(text, paint)
+
+    val textWidth = bounds.width
+    val textHeight = bounds.height
+
+    val xOffset = when (isCenter) {
+        true -> -textWidth / 2f
+        false -> 0f
+        null -> -textWidth
+    }
+
+    val yOffset = textHeight / 2f
+
+    nativeCanvas.drawString(
+        text,
+        x + (radius * cos(angle)) + xOffset,
+        y + (radius * sin(angle)) + yOffset,
+        font,
+        paint
     )
-
 }

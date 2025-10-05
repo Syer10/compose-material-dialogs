@@ -8,6 +8,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
 
     implementation(projects.app.common)
+    implementation(Dependencies.AndroidX.Compose.icons)
 
     implementation(projects.composeMaterialDialogsCore)
     implementation(projects.composeMaterialDialogsColor)

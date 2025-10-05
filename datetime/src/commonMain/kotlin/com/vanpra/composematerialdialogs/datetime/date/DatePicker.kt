@@ -68,11 +68,13 @@ import com.vanpra.composematerialdialogs.datetime.util.plus
 import com.vanpra.composematerialdialogs.datetime.util.testLength
 import com.vanpra.composematerialdialogs.datetime.util.withDayOfMonth
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.isoDayNumber
+import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 /**
  * @brief A date picker body layout
@@ -85,6 +87,7 @@ import kotlinx.datetime.toLocalDateTime
  * @param onDateChange callback with a LocalDateTime object when the user completes their input
  * @param allowedDateValidator when this returns true the date will be selectable otherwise it won't be
  */
+@ExperimentalTime
 @Composable
 fun MaterialDialogScope.datepicker(
     initialDate: LocalDate = remember {
@@ -125,7 +128,7 @@ internal fun DatePickerImpl(
 ) {
     val pageCount = (state.yearRange.last - state.yearRange.first + 1) * 12
     val pagerState = rememberPagerState(
-        initialPage = (state.selected.year - state.yearRange.first) * 12 + state.selected.monthNumber - 1,
+        initialPage = (state.selected.year - state.yearRange.first) * 12 + state.selected.month.number - 1,
         pageCount =  { pageCount }
     )
 
@@ -339,7 +342,7 @@ private fun CalendarView(
 
             items(datesList) {
                 val selected = remember(state.selected) {
-                    possibleSelected && it == state.selected.dayOfMonth
+                    possibleSelected && it == state.selected.day
                 }
                 val date = viewDate.withDayOfMonth(it)
                 val enabled = allowedDateValidator(date)
@@ -445,7 +448,7 @@ private fun CalendarHeader(title: String, state: DatePickerState, locale: Locale
                     .paddingFromBaseline(top = if (isSmallDevice()) 0.dp else 64.dp)
             ) {
                 Text(
-                    text = "$day, $month ${state.selected.dayOfMonth}",
+                    text = "$day, $month ${state.selected.day}",
                     modifier = Modifier.align(Alignment.CenterStart),
                     color = state.colors.headerTextColor,
                     style = TextStyle(fontSize = 30.sp, fontWeight = W400)

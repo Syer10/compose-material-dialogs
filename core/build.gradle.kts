@@ -8,7 +8,7 @@ plugins {
 
 kotlin {
     androidTarget {
-        publishAllLibraryVariants()
+        publishLibraryVariants()
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {

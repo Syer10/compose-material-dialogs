@@ -57,7 +57,6 @@ import com.vanpra.composematerialdialogs.datetime.util.toAM
 import com.vanpra.composematerialdialogs.datetime.util.toPM
 import com.vanpra.composematerialdialogs.datetime.util.withHour
 import com.vanpra.composematerialdialogs.datetime.util.withMinute
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -65,6 +64,8 @@ import kotlin.math.PI
 import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.roundToInt
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 /* Offset of the clock line and selected circle */
 private data class SelectedOffset(
@@ -85,6 +86,7 @@ private data class SelectedOffset(
  * @param is24HourClock uses the 24 hour clock face when true
  * @param onTimeChange callback with a LocalTime object when the user completes their input
  */
+@ExperimentalTime
 @Composable
 fun MaterialDialogScope.timepicker(
     initialTime: LocalTime = remember {

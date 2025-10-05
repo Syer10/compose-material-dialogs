@@ -12,10 +12,12 @@ import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalTime
+import kotlin.time.ExperimentalTime
 
 /**
  * @brief Date and Time Picker Demos
  */
+@OptIn(ExperimentalTime::class)
 @Composable
 fun DateTimeDialogDemo() {
     val purple = remember { Color(0xFF3700B3) }

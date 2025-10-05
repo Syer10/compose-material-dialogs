@@ -74,6 +74,7 @@ private enum class ColorPickerScreen {
  * @property allowCustomARGB custom ARGB sliders will be shown when true and hidden when false
  * @property showAlphaSelector alpha slider will be shown when true and hidden when false
  */
+@ConsistentCopyVisibility
 data class ARGBPickerState internal constructor(
     val allowCustomARGB: Boolean = true,
     val showAlphaSelector: Boolean = true

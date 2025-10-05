@@ -8,7 +8,7 @@ plugins {
 
 kotlin {
     androidTarget {
-        publishAllLibraryVariants()
+        publishLibraryVariants()
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {
@@ -48,6 +48,7 @@ kotlin {
                 compileOnly(compose.foundation)
                 compileOnly(compose.material)
                 compileOnly(compose.animation)
+                compileOnly(Dependencies.AndroidX.Compose.icons)
             }
         }
         commonTest {

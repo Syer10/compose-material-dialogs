@@ -19,7 +19,7 @@ object Dependencies {
     }
 
     object DateTime {
-        private const val version = "0.6.1"
+        private const val version = "0.7.1"
         const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:$version"
     }
 
@@ -34,7 +34,7 @@ object Dependencies {
     }
 
     object AndroidX {
-        const val coreKtx = "androidx.core:core-ktx:1.16.0"
+        const val coreKtx = "androidx.core:core-ktx:1.17.0"
 
         object Testing {
             const val version = "1.7.0"
@@ -44,8 +44,9 @@ object Dependencies {
         }
 
         object Compose {
-            const val activity = "androidx.activity:activity-compose:1.10.1"
+            const val activity = "androidx.activity:activity-compose:1.11.0"
             const val navigation = "androidx.navigation:navigation-compose:2.9.5"
+            const val icons = "org.jetbrains.compose.material:material-icons-core:1.7.3"
         }
     }
 }

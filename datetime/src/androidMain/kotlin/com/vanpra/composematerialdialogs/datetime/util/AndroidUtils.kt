@@ -38,7 +38,7 @@ internal actual fun Canvas.drawText(
     outerText.textSize = textSize
     outerText.textAlign =
         if (isCenter == true) Paint.Align.CENTER else if (isCenter == false) Paint.Align.LEFT else Paint.Align.RIGHT
-    outerText.alpha = maxOf(0, minOf(alpha * 255, 255))
+    outerText.alpha = (alpha * 255).coerceIn(0, 255)
 
     val r = Rect()
     outerText.getTextBounds(text, 0, text.length, r)

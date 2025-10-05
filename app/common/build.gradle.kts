@@ -1,3 +1,4 @@
+import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -11,7 +12,7 @@ plugins {
 
 kotlin {
     androidTarget {
-        publishAllLibraryVariants()
+        publishLibraryVariants()
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {
@@ -50,7 +51,8 @@ kotlin {
                 api(compose.ui)
                 api(compose.foundation)
                 api(compose.material)
-                api(compose.animation)
+                compileOnly(compose.animation)
+                compileOnly(Dependencies.AndroidX.Compose.icons)
                 api(Dependencies.DateTime.dateTime)
                 api(projects.composeMaterialDialogsCore)
                 api(projects.composeMaterialDialogsColor)
