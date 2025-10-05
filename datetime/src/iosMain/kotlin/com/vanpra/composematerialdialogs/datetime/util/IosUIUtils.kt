@@ -5,16 +5,12 @@ package com.vanpra.composematerialdialogs.datetime.util
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asComposePaint
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import com.vanpra.composematerialdialogs.InternalComposeMaterialDialogsApi
 import com.vanpra.composematerialdialogs.getDialogScreenWidthDp
 import org.jetbrains.skia.Font
 import org.jetbrains.skia.Paint
-import org.jetbrains.skia.PaintMode
-import org.jetbrains.skia.TextBlobBuilder
-import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 

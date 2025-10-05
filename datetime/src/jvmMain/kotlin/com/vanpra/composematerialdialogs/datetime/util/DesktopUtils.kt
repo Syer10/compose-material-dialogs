@@ -7,9 +7,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import org.jetbrains.skia.Font
 import org.jetbrains.skia.Paint
-import org.jetbrains.skia.Rect
-import org.jetbrains.skia.TextBlobBuilder
-import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
