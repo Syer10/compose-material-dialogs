@@ -2,7 +2,7 @@ object Dependencies {
     const val desugar = "com.android.tools:desugar_jdk_libs:2.1.5"
 
     object ComposeMaterialDialogs {
-        const val version = "0.9.6"
+        const val version = "0.9.7"
 
         const val core = "ca.gosyer:compose-material-dialogs-core:$version"
         const val datetime = "ca.gosyer:compose-material-dialogs-datetime:$version"
