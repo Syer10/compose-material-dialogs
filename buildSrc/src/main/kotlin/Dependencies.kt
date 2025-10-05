@@ -30,7 +30,7 @@ object Dependencies {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.12.0"
+        const val material = "com.google.android.material:material:1.13.0"
     }
 
     object AndroidX {
