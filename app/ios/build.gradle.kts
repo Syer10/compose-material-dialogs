@@ -40,6 +40,7 @@ kotlin {
                 implementation(projects.composeMaterialDialogsCore)
                 implementation(projects.composeMaterialDialogsColor)
                 implementation(projects.composeMaterialDialogsDatetime)
+                implementation(Dependencies.AndroidX.Compose.icons)
 
                 /*implementation(Dependencies.ComposeMaterialDialogs.core)
                 implementation(Dependencies.ComposeMaterialDialogs.datetime)

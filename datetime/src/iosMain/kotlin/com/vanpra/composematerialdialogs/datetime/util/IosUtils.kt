@@ -17,6 +17,7 @@ import platform.Foundation.NSCalendarUnitDay
 import platform.Foundation.NSCalendarUnitMonth
 import platform.Foundation.NSDateComponents
 import platform.Foundation.calendarIdentifier
+import kotlin.time.ExperimentalTime
 import platform.Foundation.NSLocale as PlatformLocale
 
 @OptIn(ExperimentalForeignApi::class)
@@ -45,11 +46,14 @@ internal actual val LocalDate.isLeapYear: Boolean
         year % 4 == 0
     }
 
+@ExperimentalTime
 private fun NSDateComponents.toKotlinInstant() = NSCalendar.currentCalendar.dateFromComponents(this)!!.toKotlinInstant()
 
+@ExperimentalTime
 internal actual fun LocalTime.minusHours(hoursToSubtract: Long): LocalTime = toNSDateComponents().apply {
     hour -= hoursToSubtract
 }.toKotlinInstant().toLocalDateTime(TimeZone.UTC).time
+@ExperimentalTime
 internal actual fun LocalTime.plusHours(hoursToAdd: Long): LocalTime = toNSDateComponents().apply {
     hour += hoursToAdd
 }.toKotlinInstant().toLocalDateTime(TimeZone.UTC).time
@@ -82,7 +86,7 @@ internal actual fun Month.testLength(year: Int, isLeapYear: Boolean): Int {
 }
 
 internal actual operator fun DayOfWeek.plus(days: Long): DayOfWeek {
-    return DayOfWeek.values()[((ordinal + days) % 7).toInt()]
+    return DayOfWeek.entries[((ordinal + days) % 7).toInt()]
 }
 
 internal actual fun DayOfWeek.getNarrowDisplayName(locale: Locale): String = getCalendar(locale).veryShortWeekdaySymbols()
