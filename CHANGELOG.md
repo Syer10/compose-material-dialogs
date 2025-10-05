@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.9.7 - 2025-10-04
+- Update Compose Multiplatform to 1.9.0
+- Update Kotlin to 2.2.20
+- Move to the new Kotlinx-DateTime v0.7
+
 ### 0.9.6 - 2024-11-22
 - Update Compose Multiplatform to 1.7.0
 - Update Kotlin to 2.0.21
