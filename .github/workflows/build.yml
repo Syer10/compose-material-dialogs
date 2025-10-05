@@ -30,7 +30,7 @@ jobs:
         run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
 
       - name: Set up gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Build
         run: |
@@ -169,7 +169,7 @@ jobs:
         run: release/signing-setup.sh ${{ secrets.ENCRYPT_KEY }}
 
       - name: Set up gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Deploy to Sonatype
         run: ./gradlew publish --stacktrace
