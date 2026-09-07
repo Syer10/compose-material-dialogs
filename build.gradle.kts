@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.compose") version "1.9.0" apply false
     //id("com.diffplug.spotless") version "6.0.4"
     id("org.jetbrains.dokka") version "2.0.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.4.20"
 }
 
 buildscript {
